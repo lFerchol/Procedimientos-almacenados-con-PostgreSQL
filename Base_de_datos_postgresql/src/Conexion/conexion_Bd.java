@@ -10,6 +10,8 @@ import java.sql.*;
 
 //paquete que permite configurar las funciones de red
 import java.net.URL;   
+import java.util.ArrayList;
+import java.util.List;
 
 public class conexion_Bd
 {
@@ -117,27 +119,20 @@ public class conexion_Bd
         }
     }
     public void consultar() {
-               String cc = "jdbc:postgresql://localhost:5432/ventas?" +
+               String cc = "jdbc:postgresql://localhost:5432/Cinema?" +
                    "user=postgres&password=q";
               try {
                   Class.forName("org.postgresql.Driver");
                   Connection conexion = DriverManager.getConnection(cc);
                   Statement comando = conexion.createStatement();
                   
-                  /*String sql =
-                      "SELECT nombre, apellido FROM clientes ORDER BY apellido";
-                  ResultSet resultado = comando.executeQuery(sql);
-                  while(resultado.next()) {
-                      String n = resultado.getString("nombre");
-                      String a = resultado.getString("apellido");
-                      System.out.println(n + " " + a);
-                  }*/
+                  //Consulta a la BD
                   String sql="select * from boleto;";
                   ResultSet resultado = comando.executeQuery(sql);
                   while(resultado.next()) {
                       int n = resultado.getInt("folio");
                       String a = resultado.getString("cod_peli");
-                      System.out.println(n + " " + a);
+                      System.out.println("Folio: "+n + "\nCódigo de Pelicula: " + a);
                   }
                   resultado.close();
                   comando.close();
@@ -146,5 +141,22 @@ public class conexion_Bd
                   System.out.println(e.getMessage());
               }
           }
+    public ArrayList<String> procedimiento_almacenado_en_server(){
+        ArrayList<String> contenido = null;
+        contenido = new ArrayList<String>();
+        return contenido;
+    }
+    
+    
 
 }
+/*
+
+Notas:
+    Insersión de una fila a 
+    
+    boleto
+        -- insert into boleto values (1,'001','1996-08-28','2004-10-19 10:23:54+02',2.59,1,1) 
+    Pelicula   
+        -- insert into pelicula values ('001','Avatar','Aventura')
+*/
